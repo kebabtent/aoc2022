@@ -1,4 +1,4 @@
-use common::{read_lines, IterExt, TupleSum};
+use common::{read_lines, IterExt, Triplet, TupleSum};
 
 fn main() {
 	let (a, b) = read_lines()
@@ -14,7 +14,7 @@ fn main() {
 			})
 		})
 		.batching(|i| {
-			let ((a, x), (b, y), (c, z)) = (i.next()?, i.next()?, i.next()?);
+			let ((a, x), (b, y), (c, z)) = i.next_tuple::<Triplet<_>>()?;
 			Some((a + b + c, (x & y & z).trailing_zeros() as u64))
 		})
 		.tuple_sum();
