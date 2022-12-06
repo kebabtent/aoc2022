@@ -3,21 +3,21 @@ use std::collections::VecDeque;
 
 fn main() {
 	let mut i = read_lines();
-	let s =
-		i.by_ref()
-			.take_while(|l| l.starts_with('['))
-			.fold(Vec::with_capacity(10), |mut a, l| {
-				for (n, c) in l.chars().skip(1).step_by(4).enumerate() {
-					if c == ' ' {
-						continue;
-					}
-					while a.len() < n + 1 {
-						a.push(VecDeque::with_capacity(16));
-					}
-					a[n].push_front(c);
-				}
-				a
-			});
+	let s = i.by_ref().take_while(|l| l.starts_with('[')).fold(
+		vec![VecDeque::with_capacity(16); 10],
+		|mut a, l| {
+			for (n, c) in l
+				.chars()
+				.skip(1)
+				.step_by(4)
+				.enumerate()
+				.filter(|&(_, c)| c != ' ')
+			{
+				a[n].push_front(c);
+			}
+			a
+		},
+	);
 
 	let (a, b) = i.fold((s.clone(), s), |(mut a, mut b), l| {
 		let (n, f, t) = l
@@ -38,8 +38,6 @@ fn main() {
 		(a, b)
 	});
 
-	let a: String = a.iter().map(|c| c.back().unwrap()).collect();
-	let b: String = b.iter().map(|c| c.back().unwrap()).collect();
-	println!("{a}");
-	println!("{b}");
+	println!("{}", a.iter().filter_map(|c| c.back()).collect::<String>());
+	println!("{}", b.iter().filter_map(|c| c.back()).collect::<String>());
 }
