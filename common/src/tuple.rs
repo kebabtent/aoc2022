@@ -11,7 +11,7 @@ pub trait Tuple<T>: Clone + Sized {
 	fn push_right(&mut self, v: T);
 }
 
-impl<T: Clone> Tuple<T> for (T, T) {
+impl<T: Clone> Tuple<T> for Doublet<T> {
 	fn collect<I: Iterator<Item = T>>(mut it: I) -> Option<Self> {
 		Some((it.next()?, it.next()?))
 	}
@@ -22,7 +22,7 @@ impl<T: Clone> Tuple<T> for (T, T) {
 	}
 }
 
-impl<T: Clone> Tuple<T> for (T, T, T) {
+impl<T: Clone> Tuple<T> for Triplet<T> {
 	fn collect<I: Iterator<Item = T>>(mut it: I) -> Option<Self> {
 		Some((it.next()?, it.next()?, it.next()?))
 	}
@@ -34,7 +34,7 @@ impl<T: Clone> Tuple<T> for (T, T, T) {
 	}
 }
 
-impl<T: Clone> Tuple<T> for (T, T, T, T) {
+impl<T: Clone> Tuple<T> for Quartet<T> {
 	fn collect<I: Iterator<Item = T>>(mut it: I) -> Option<Self> {
 		Some((it.next()?, it.next()?, it.next()?, it.next()?))
 	}
@@ -98,7 +98,7 @@ where
 
 impl<T, U> TupleSum<Doublet<U>, U, U> for T
 where
-	T: Iterator<Item = (U, U)>,
+	T: Iterator<Item = Doublet<U>>,
 	U: Add<U, Output = U> + Default + Clone,
 {
 	type Output = Doublet<U>;
@@ -109,7 +109,7 @@ where
 
 impl<T> TupleSum<Doublet<bool>, bool, u32> for T
 where
-	T: Iterator<Item = (bool, bool)>,
+	T: Iterator<Item = Doublet<bool>>,
 {
 	type Output = Doublet<u32>;
 	fn tuple_sum(self) -> Self::Output {
