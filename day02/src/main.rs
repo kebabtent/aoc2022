@@ -1,18 +1,11 @@
 use common::{read_lines, Doublet, IterExt, TupleSum};
-use std::cmp::Ordering;
 
 #[derive(Clone, Copy, Debug)]
 struct L(u32);
 
 impl L {
 	fn c(self, o: Self) -> u32 {
-		use Ordering::*;
-		let r = match self.partial_cmp(&o).unwrap() {
-			Greater => 6,
-			Equal => 3,
-			Less => 0,
-		};
-		r + self.0 + 1
+		(self.partial_cmp(&o).unwrap() as i8 * 3 + 4) as u32 + self.0
 	}
 
 	fn p(self, m: Self) -> Self {
@@ -22,12 +15,12 @@ impl L {
 
 impl PartialEq for L {
 	fn eq(&self, o: &Self) -> bool {
-		self.partial_cmp(o) == Some(Ordering::Equal)
+		self.partial_cmp(o) == Some(std::cmp::Ordering::Equal)
 	}
 }
 
 impl PartialOrd for L {
-	fn partial_cmp(&self, o: &Self) -> Option<Ordering> {
+	fn partial_cmp(&self, o: &Self) -> Option<std::cmp::Ordering> {
 		let (s, o) = (self.0, o.0);
 		if s + o == 2 {
 			o.partial_cmp(&s)
