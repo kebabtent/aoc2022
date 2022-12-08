@@ -1,3 +1,4 @@
+pub use self::bitmap::*;
 pub use self::buffer::*;
 pub use self::tuple::*;
 use std::fs::File;
@@ -5,6 +6,7 @@ use std::io::{BufRead, BufReader};
 use std::iter::once;
 use std::str::FromStr;
 
+mod bitmap;
 mod buffer;
 mod tuple;
 
