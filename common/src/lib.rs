@@ -119,3 +119,38 @@ impl<R: BufRead> Iterator for ReadChars<R> {
 		}
 	}
 }
+
+pub enum Either<L, R> {
+	L(L),
+	R(R),
+}
+
+impl<L, R> Either<L, R> {
+	pub fn left(&self) -> &L {
+		match self {
+			Self::L(l) => l,
+			_ => panic!("Not left"),
+		}
+	}
+
+	pub fn right(&self) -> &R {
+		match self {
+			Self::R(r) => r,
+			_ => panic!("Not right"),
+		}
+	}
+
+	pub fn left_mut(&mut self) -> &mut L {
+		match self {
+			Self::L(l) => l,
+			_ => panic!("Not left"),
+		}
+	}
+
+	pub fn right_mut(&mut self) -> &mut R {
+		match self {
+			Self::R(r) => r,
+			_ => panic!("Not right"),
+		}
+	}
+}
