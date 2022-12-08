@@ -9,12 +9,9 @@ fn main() {
 		for i in 0..n {
 			let (mut h, mut o) = (0, [0; 10]);
 			for j in 0..n {
-				let x = match d {
-					0 => i * (n + 1) + j,
-					1 => j * (n + 1) + i,
-					2 => i * (n + 1) + n - 1 - j,
-					_ => (n - 1 - j) * (n + 1) + i,
-				};
+				let z = if d / 2 == 0 { j } else { n - 1 - j };
+				let (y, z) = if d % 2 == 0 { (i, z) } else { (z, i) };
+				let x = y * (n + 1) + z;
 				let v = g[x] - 48;
 				if i == 0 || j == 0 || v > h {
 					b.set(x);
