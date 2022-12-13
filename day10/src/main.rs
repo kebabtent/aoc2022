@@ -1,7 +1,7 @@
 use common::{read_lines, IterExt};
 
 fn main() {
-	let (mut x, mut c, mut v) = (1i32, 0i32, 0i32);
+	let (mut x, mut c, mut v) = (1, 0, 0);
 	let a: i32 = read_lines()
 		.batching(|l| {
 			if c > 0 {
