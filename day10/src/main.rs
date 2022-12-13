@@ -28,7 +28,7 @@ fn main() {
 		})
 		.skip(19)
 		.step_by(40)
-		.map(|(i, v)| (i as i32 + 1) * v)
+		.map(|(i, v)| (i + 1) * v)
 		.sum();
 	println!("{}", a);
 }
