@@ -4,10 +4,7 @@ use std::collections::VecDeque;
 fn e() -> Option<()> {
 	let mut l = read_lines();
 	let (mut h, mut o, mut d, mut t, mut f) = (vec![], vec![], vec![], vec![], vec![]);
-	loop {
-		if l.next().is_none() {
-			break;
-		}
+	while l.next().is_some() {
 		h.push(
 			l.next()?
 				.split(": ")
@@ -35,6 +32,7 @@ fn e() -> Option<()> {
 	let n = h.len();
 
 	let mut s = Vec::with_capacity(n);
+	let mut w = Vec::with_capacity(n);
 	for m in 0..n {
 		let mut u = VecDeque::with_capacity(h[m].len());
 		for i in 0..h[m].len() {
@@ -42,7 +40,8 @@ fn e() -> Option<()> {
 			for j in 0..n {
 				v.push(h[m][i] % d[j]);
 			}
-			u.push_back(v);
+			u.push_back(w.len());
+			w.push(v);
 		}
 		s.push(u);
 	}
@@ -70,16 +69,17 @@ fn e() -> Option<()> {
 	for _ in 0..10000 {
 		for m in 0..n {
 			c[m] += s[m].len();
-			while let Some(mut w) = s[m].pop_front() {
+			while let Some(j) = s[m].pop_front() {
 				for i in 0..n {
-					w[i] = match o[m] {
-						Some(L(v)) => w[i] + v,
-						Some(R(v)) => w[i] * v,
-						None => w[i] * w[i],
+					let u = w[j][i];
+					w[j][i] = match o[m] {
+						Some(L(v)) => u + v,
+						Some(R(v)) => u * v,
+						None => u * u,
 					} % d[i];
 				}
-				let j = if w[m] == 0 { t[m] } else { f[m] };
-				s[j].push_back(w);
+				let k = if w[j][m] == 0 { t[m] } else { f[m] };
+				s[k].push_back(j);
 			}
 		}
 	}
